@@ -18,6 +18,13 @@ export interface ClientAlert {
   nomeFantasia: string;
   pedidos: string[];
   totalPedidos: number;
+  pedidosDetalhados: PedidoDetalhado[];
+}
+
+export interface PedidoDetalhado {
+  numeroPedido: string;
+  dataEmissao: string;
+  itens: OrderData[];
 }
 
 export interface ProcessingStats {

@@ -11,8 +11,9 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table';
-import { Search, Download, AlertTriangle } from 'lucide-react';
+import { Search, Download, AlertTriangle, Eye } from 'lucide-react';
 import { ClientAlert } from '@/types/order';
+import { ClientDetailsModal } from '@/components/ClientDetailsModal';
 import * as XLSX from 'xlsx';
 
 interface AlertsTableProps {
@@ -21,6 +22,8 @@ interface AlertsTableProps {
 
 export const AlertsTable = ({ alerts }: AlertsTableProps) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedClient, setSelectedClient] = useState<ClientAlert | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const filteredAlerts = useMemo(() => {
     if (!searchTerm) return alerts;
@@ -32,6 +35,16 @@ export const AlertsTable = ({ alerts }: AlertsTableProps) => {
       alert.pedidos.some(pedido => pedido.toLowerCase().includes(term))
     );
   }, [alerts, searchTerm]);
+
+  const handleViewDetails = (client: ClientAlert) => {
+    setSelectedClient(client);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedClient(null);
+  };
 
   const exportData = () => {
     // Preparar dados para Excel
@@ -118,11 +131,12 @@ export const AlertsTable = ({ alerts }: AlertsTableProps) => {
                 <TableHead className="font-semibold">Nome Fantasia</TableHead>
                 <TableHead className="font-semibold">Pedidos</TableHead>
                 <TableHead className="font-semibold text-center">Total</TableHead>
+                <TableHead className="font-semibold text-center">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredAlerts.map((alert, index) => (
-                <TableRow key={index} className="hover:bg-muted/20">
+                <TableRow key={index} className="hover:bg-muted/20 cursor-pointer" onClick={() => handleViewDetails(alert)}>
                   <TableCell className="font-mono font-medium">
                     {alert.codigoCliente}
                   </TableCell>
@@ -143,6 +157,20 @@ export const AlertsTable = ({ alerts }: AlertsTableProps) => {
                       {alert.totalPedidos}
                     </Badge>
                   </TableCell>
+                  <TableCell className="text-center">
+                    <Button 
+                      variant="ghost" 
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleViewDetails(alert);
+                      }}
+                      className="flex items-center gap-1"
+                    >
+                      <Eye className="h-4 w-4" />
+                      Ver Detalhes
+                    </Button>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>
@@ -155,6 +183,12 @@ export const AlertsTable = ({ alerts }: AlertsTableProps) => {
           </div>
         )}
       </CardContent>
+
+      <ClientDetailsModal 
+        client={selectedClient}
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+      />
     </Card>
   );
 };

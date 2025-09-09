@@ -42,11 +42,20 @@ export const processExcelFiles = async (files: File[]): Promise<{
 
     if (orderIds.length > 1) {
       const firstOrder = orders.get(orderIds[0])![0];
+      
+      // Criar pedidos detalhados
+      const pedidosDetalhados = orderIds.map(orderId => ({
+        numeroPedido: orderId,
+        dataEmissao: orders.get(orderId)![0].dataEmissao,
+        itens: orders.get(orderId)!
+      }));
+
       alerts.push({
         codigoCliente: clientId,
         nomeFantasia: firstOrder.nomeFantasia,
         pedidos: orderIds.sort(),
         totalPedidos: orderIds.length,
+        pedidosDetalhados: pedidosDetalhados.sort((a, b) => a.numeroPedido.localeCompare(b.numeroPedido)),
       });
     }
   });
