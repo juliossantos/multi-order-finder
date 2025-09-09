@@ -82,11 +82,14 @@ export const FileUpload = ({ onFilesSelected, isProcessing }: FileUploadProps) =
             id="file-upload"
             disabled={isProcessing}
           />
-          <label htmlFor="file-upload">
-            <Button variant="outline" className="cursor-pointer" disabled={isProcessing}>
-              Selecionar Arquivos
-            </Button>
-          </label>
+          <Button 
+            variant="outline" 
+            className="cursor-pointer" 
+            disabled={isProcessing}
+            onClick={() => document.getElementById('file-upload')?.click()}
+          >
+            Selecionar Arquivos
+          </Button>
         </div>
 
         {selectedFiles.length > 0 && (
