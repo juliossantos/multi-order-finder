@@ -13,6 +13,7 @@ import {
 } from '@/components/ui/table';
 import { Search, Download, AlertTriangle } from 'lucide-react';
 import { ClientAlert } from '@/types/order';
+import * as XLSX from 'xlsx';
 
 interface AlertsTableProps {
   alerts: ClientAlert[];
@@ -33,25 +34,35 @@ export const AlertsTable = ({ alerts }: AlertsTableProps) => {
   }, [alerts, searchTerm]);
 
   const exportData = () => {
-    const csvContent = [
+    // Preparar dados para Excel
+    const worksheetData = [
       ['Código Cliente', 'Nome Fantasia', 'Pedidos', 'Total Pedidos'],
       ...filteredAlerts.map(alert => [
         alert.codigoCliente,
         alert.nomeFantasia,
         alert.pedidos.join('; '),
-        alert.totalPedidos.toString()
+        alert.totalPedidos
       ])
     ];
 
-    const csvString = csvContent.map(row => 
-      row.map(field => `"${field}"`).join(',')
-    ).join('\n');
+    // Criar workbook e worksheet
+    const workbook = XLSX.utils.book_new();
+    const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);
 
-    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'clientes_multiplos_pedidos.csv';
-    link.click();
+    // Ajustar largura das colunas
+    const columnWidths = [
+      { wch: 15 }, // Código Cliente
+      { wch: 30 }, // Nome Fantasia
+      { wch: 40 }, // Pedidos
+      { wch: 12 }  // Total Pedidos
+    ];
+    worksheet['!cols'] = columnWidths;
+
+    // Adicionar worksheet ao workbook
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Clientes Múltiplos Pedidos');
+
+    // Exportar arquivo
+    XLSX.writeFile(workbook, 'clientes_multiplos_pedidos.xlsx');
   };
 
   if (alerts.length === 0) {
