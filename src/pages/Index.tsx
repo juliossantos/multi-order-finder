@@ -65,7 +65,7 @@ const Index = () => {
             {/* Stats Cards */}
             <div>
               <h2 className="text-2xl font-semibold text-foreground mb-6 flex items-center gap-2">
-                <TrendingUp className="h-6 w-6 text-primary" />
+                <TrendingUp className="text-red-600 h-6 w-6 text-primary" />
                 Estatísticas do Processamento
               </h2>
               <StatsCards stats={stats} />
@@ -87,19 +87,19 @@ const Index = () => {
               </h3>
               <ol className="space-y-2 text-muted-foreground">
                 <li className="flex items-start space-x-2">
-                  <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5">1</span>
+                  <span className="bg-red-600 text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5">1</span>
                   <span>Faça upload de uma ou mais planilhas Excel (.xlsx ou .xls) com os dados dos pedidos</span>
                 </li>
                 <li className="flex items-start space-x-2">
-                  <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5">2</span>
+                  <span className="bg-red-600 text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5">2</span>
                   <span>O sistema analisará automaticamente os dados agrupando por cliente e pedido</span>
                 </li>
                 <li className="flex items-start space-x-2">
-                  <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5">3</span>
+                  <span className="bg-red-600 text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5">3</span>
                   <span>Visualize os alertas de clientes com múltiplos pedidos distintos</span>
                 </li>
                 <li className="flex items-start space-x-2">
-                  <span className="bg-primary text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5">4</span>
+                  <span className="bg-red-600 text-primary-foreground rounded-full w-5 h-5 flex items-center justify-center text-xs font-semibold mt-0.5">4</span>
                   <span>Exporte os resultados em formato CSV para análise posterior</span>
                 </li>
               </ol>

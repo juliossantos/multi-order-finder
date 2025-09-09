@@ -20,7 +20,7 @@ export const ClientDetailsModal = ({ client, isOpen, onClose }: ClientDetailsMod
       <DialogContent className="max-w-4xl max-h-[80vh]">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2 text-xl">
-            <Package className="h-5 w-5 text-primary" />
+            <Package className="h-5 w-5 text-red-600" />
             Detalhes dos Pedidos - {client.nomeFantasia}
           </DialogTitle>
           <p className="text-muted-foreground">
@@ -35,7 +35,7 @@ export const ClientDetailsModal = ({ client, isOpen, onClose }: ClientDetailsMod
                 <CardHeader className="pb-3">
                   <CardTitle className="flex items-center gap-3 text-lg">
                     <div className="flex items-center gap-2">
-                      <Hash className="h-4 w-4 text-primary" />
+                      <Hash className="h-4 w-4 text-red-600" />
                       <span>Pedido nº {pedido.numeroPedido}</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -51,7 +51,7 @@ export const ClientDetailsModal = ({ client, isOpen, onClose }: ClientDetailsMod
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                           <div className="space-y-2">
                             <div className="flex items-center gap-2">
-                              <Package className="h-4 w-4 text-primary" />
+                              <Package className="h-4 w-4 text-red-600" />
                               <span className="font-medium text-sm text-muted-foreground">Código:</span>
                               <Badge variant="outline" className="text-xs">
                                 {item.codigoProduto}
