@@ -84,7 +84,7 @@ export const FileUpload = ({ onFilesSelected, isProcessing }: FileUploadProps) =
           />
           <Button 
             variant="outline" 
-            className="cursor-pointer" 
+            className="cursor-pointer bg-yellow-400 hover:bg-yellow-500" 
             disabled={isProcessing}
             onClick={() => document.getElementById('file-upload')?.click()}
           >
@@ -117,7 +117,7 @@ export const FileUpload = ({ onFilesSelected, isProcessing }: FileUploadProps) =
             
             <Button 
               onClick={processFiles}
-              className="w-full mt-4 bg-gradient-primary hover:shadow-glow transition-all duration-200"
+              className="w-full mt-4 bg-red-600 hover:shadow-glow transition-all duration-200"
               disabled={isProcessing}
             >
               {isProcessing ? "Processando..." : "Analisar Pedidos"}
