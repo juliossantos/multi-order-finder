@@ -92,19 +92,24 @@ const readExcelFile = (file: File): Promise<OrderData[]> => {
               obj[normalizedHeader] = row[index] || '';
             });
 
+            // Se não conseguiu mapear pelos cabeçalhos, usar posições fixas das colunas
+            // Coluna 1 (índice 0) = código do cliente, Coluna 3 (índice 2) = número do pedido
+            const codigoCliente = String(obj.codigoCliente || obj.codigo || row[0] || '').trim();
+            const numeroPedido = String(obj.numeroPedido || obj.pedido || row[2] || '').trim();
+
             return {
-              codigoCliente: String(obj.codigoCliente || obj.codigo || '').trim(),
-              nomeFantasia: String(obj.nomeFantasia || obj.nome || '').trim(),
-              numeroPedido: String(obj.numeroPedido || obj.pedido || '').trim(),
-              dataEmissao: String(obj.dataEmissao || obj.data || '').trim(),
-              codigoProduto: String(obj.codigoProduto || obj.produto || '').trim(),
-              descricaoProduto: String(obj.descricaoProduto || obj.descricao || '').trim(),
-              quantidade: Number(obj.quantidade || 0),
-              peso: Number(obj.peso || 0),
-              endereco: String(obj.endereco || '').trim(),
-              bairro: String(obj.bairro || '').trim(),
-              cidade: String(obj.cidade || '').trim(),
-              observacao: String(obj.observacao || obj.obs || '').trim(),
+              codigoCliente,
+              nomeFantasia: String(obj.nomeFantasia || obj.nome || row[1] || '').trim(),
+              numeroPedido,
+              dataEmissao: String(obj.dataEmissao || obj.data || row[3] || '').trim(),
+              codigoProduto: String(obj.codigoProduto || obj.produto || row[4] || '').trim(),
+              descricaoProduto: String(obj.descricaoProduto || obj.descricao || row[5] || '').trim(),
+              quantidade: Number(obj.quantidade || row[6] || 0),
+              peso: Number(obj.peso || row[7] || 0),
+              endereco: String(obj.endereco || row[8] || '').trim(),
+              bairro: String(obj.bairro || row[9] || '').trim(),
+              cidade: String(obj.cidade || row[10] || '').trim(),
+              observacao: String(obj.observacao || obj.obs || row[11] || '').trim(),
             } as OrderData;
           })
           .filter(item => item.codigoCliente && item.numeroPedido);
