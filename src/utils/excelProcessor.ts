@@ -13,10 +13,24 @@ export const processExcelFiles = async (files: File[]): Promise<{
     allData.push(...data);
   }
 
+  // Remover pedidos duplicados entre arquivos (quando múltiplos arquivos)
+  let dedupedData = allData;
+  if (files.length > 1) {
+    const seenOrders = new Set<string>();
+    dedupedData = allData.filter(row => {
+      const orderId = row.numeroPedido;
+      if (seenOrders.has(orderId)) {
+        return false; // Descartar pedido duplicado
+      }
+      seenOrders.add(orderId);
+      return true;
+    });
+  }
+
   // Agrupar por cliente e pedido
   const clientOrders = new Map<string, Map<string, OrderData[]>>();
   
-  allData.forEach(row => {
+  dedupedData.forEach(row => {
     const clientId = row.codigoCliente;
     const orderId = row.numeroPedido;
 
@@ -64,7 +78,7 @@ export const processExcelFiles = async (files: File[]): Promise<{
   alerts.sort((a, b) => b.totalPedidos - a.totalPedidos);
 
   const stats: ProcessingStats = {
-    totalRows: allData.length,
+    totalRows: dedupedData.length,
     totalClients: clientOrders.size,
     clientsWithMultipleOrders: alerts.length,
     totalUniqueOrders,
